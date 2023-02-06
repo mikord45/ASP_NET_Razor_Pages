@@ -1,18 +1,23 @@
-using ASP_NET_Razor_Pages.Data;
+﻿using ASP_NET_Razor_Pages.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddRazorPages();
+builder.Services.AddDbContext<ASP_NET_Razor_PagesContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ASP_NET_Razor_PagesContext") ?? throw new InvalidOperationException("Connection string 'ASP_NET_Razor_PagesContext' not found.")));
+
+///////////////////////////
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
+builder.Services.AddDbContext<ApplicationDbContext>(options => builder.Services.AddDatabaseDeveloperPageExceptionFilter());
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
