@@ -1,4 +1,4 @@
-﻿using ASP_NET_Razor_Pages.Data;
+using ASP_NET_Razor_Pages.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
