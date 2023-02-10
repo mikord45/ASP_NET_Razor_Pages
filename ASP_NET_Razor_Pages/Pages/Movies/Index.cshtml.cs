@@ -12,9 +12,9 @@ namespace ASP_NET_Razor_Pages.Models.Movies
 {
     public class IndexModel : PageModel
     {
-        private readonly ASP_NET_Razor_Pages.Data.ASP_NET_Razor_PagesContext _context;
+        private readonly ASP_NET_Razor_Pages.Data.ApplicationDbContext _context;
 
-        public IndexModel(ASP_NET_Razor_Pages.Data.ASP_NET_Razor_PagesContext context)
+        public IndexModel(ASP_NET_Razor_Pages.Data.ApplicationDbContext context)
         {
             _context = context;
         }

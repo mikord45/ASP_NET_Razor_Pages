@@ -7,9 +7,9 @@ public static class SeedData
 {
     public static void Initialize(IServiceProvider serviceProvider)
     {
-        using (var context = new ASP_NET_Razor_PagesContext(
+        using (var context = new ApplicationDbContext(
             serviceProvider.GetRequiredService<
-                DbContextOptions<ASP_NET_Razor_PagesContext>>()))
+                DbContextOptions<ApplicationDbContext>>()))
         {
             if (context == null || context.Movie == null)
             {

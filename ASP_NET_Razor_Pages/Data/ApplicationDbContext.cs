@@ -9,5 +9,7 @@ namespace ASP_NET_Razor_Pages.Data
             : base(options)
         {
         }
+
+        public DbSet<RazorPagesMovie.Models.Movie> Movie { get; set; } = default!;
     }
 }
