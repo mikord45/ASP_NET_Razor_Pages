@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ASP_NET_Razor_Pages.Data;
 using RazorPagesMovie.Models;
+using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace ASP_NET_Razor_Pages.Models.Movies
 {

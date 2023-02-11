@@ -42,6 +42,8 @@ else
     app.UseHsts();
 }
 
+app.UseRequestLocalization("pl-PL");
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
