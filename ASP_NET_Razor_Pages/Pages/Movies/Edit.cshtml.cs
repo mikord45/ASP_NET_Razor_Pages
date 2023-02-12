@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASP_NET_Razor_Pages.Data;
 using RazorPagesMovie.Models;
+using System.Diagnostics;
 
 namespace ASP_NET_Razor_Pages.Models.Movies
 {
@@ -39,13 +40,11 @@ namespace ASP_NET_Razor_Pages.Models.Movies
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnUpdateAsync()
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+                return BadRequest();
             }
 
             _context.Attach(Movie).State = EntityState.Modified;
@@ -66,7 +65,7 @@ namespace ASP_NET_Razor_Pages.Models.Movies
                 }
             }
 
-            return RedirectToPage("./Index");
+            return new OkResult();
         }
 
         private bool MovieExists(int id)

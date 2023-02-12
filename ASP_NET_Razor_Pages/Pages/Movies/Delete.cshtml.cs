@@ -59,5 +59,23 @@ namespace ASP_NET_Razor_Pages.Models.Movies
 
             return RedirectToPage("./Index");
         }
+
+        public async Task<IActionResult> OnDeleteAsync(int? id)
+        {
+            if (id == null || _context.Movie == null)
+            {
+                return NotFound();
+            }
+            var movie = await _context.Movie.FindAsync(id);
+
+            if (movie != null)
+            {
+                Movie = movie;
+                _context.Movie.Remove(Movie);
+                await _context.SaveChangesAsync();
+            }
+
+            return new OkResult();
+        }
     }
 }
