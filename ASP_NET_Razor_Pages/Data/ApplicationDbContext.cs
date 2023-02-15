@@ -12,5 +12,7 @@ namespace ASP_NET_Razor_Pages.Data
 
         public DbSet<RazorPagesMovie.Models.Movie> Movie { get; set; } = default!;
         public DbSet<RazorPagesMovie.Models.Rating> Rating { get; set; } = default!;
+        public DbSet<RazorPagesMovie.Models.ProductionCompany> ProductionCompany { get; set; } = default!;
+
     }
 }

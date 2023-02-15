@@ -32,6 +32,12 @@ namespace ASP_NET_Razor_Pages.Models.Movies
         [BindProperty(SupportsGet = true)]
         public string? MovieRating { get; set; }
 
+        public SelectList? ProductionCompanies { get; set; }
+
+
+        [BindProperty(SupportsGet = true)]
+        public string? MovieProductionCompany { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Movie == null)
@@ -39,18 +45,22 @@ namespace ASP_NET_Razor_Pages.Models.Movies
                 return NotFound();
             }
 
-            var movie = await _context.Movie.Include("Rating").FirstOrDefaultAsync(m => m.Id == id);
+            var movie = await _context.Movie.Include("Rating").Include("ProductionCompany").FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null)
             {
                 return NotFound();
             }
 
-            var ratingsQuery = from m in _context.Rating
-                               select m;
-
+            var ratingsQuery = from m in _context.Rating select m;
             var allRatings = await ratingsQuery.ToListAsync();
             Ratings = new SelectList(allRatings, "Id", "Name");
             MovieRating = movie.Rating.Id.ToString();
+
+            var productionCompaniesQuery = from m in _context.ProductionCompany select m;
+            var allProductionCompanies = await productionCompaniesQuery.ToListAsync();
+            ProductionCompanies = new SelectList(allProductionCompanies, "Id", "Name");
+            MovieProductionCompany = movie.ProductionCompany.Id.ToString();
+
             Movie = movie;
             return Page();
         }
@@ -58,6 +68,7 @@ namespace ASP_NET_Razor_Pages.Models.Movies
         public async Task<IActionResult> OnUpdateAsync()
         {
             Movie.Rating = _context.Rating.Where(r => r.Id.ToString() == MovieRating).FirstOrDefault();
+            Movie.ProductionCompany = _context.ProductionCompany.Where(c => c.Id.ToString() == MovieProductionCompany).FirstOrDefault();
 
             if (!ModelState.IsValid)
             {

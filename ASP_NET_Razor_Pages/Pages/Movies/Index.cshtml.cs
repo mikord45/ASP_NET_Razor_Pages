@@ -50,7 +50,7 @@ namespace ASP_NET_Razor_Pages.Models.Movies
                 movies = movies.Where(x => x.Genre == MovieGenre);
             }
             Genres = new SelectList(await genreQuery.Distinct().ToListAsync());
-            Movie = await movies.Include("Rating").ToListAsync();
+            Movie = await movies.Include("Rating").Include("ProductionCompany").ToListAsync();
         }
     }
 }

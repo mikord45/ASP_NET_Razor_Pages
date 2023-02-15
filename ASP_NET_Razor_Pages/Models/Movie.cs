@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ASP_NET_Razor_Pages.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.InteropServices;
 
@@ -26,10 +27,12 @@ public class Movie
     [StringLength(30)]
     public string Genre { get; set; } = string.Empty;
 
-    //[RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-]*$")]
-    //[StringLength(5)]
-    //[Required]
     public int RatingId { get; set; }
 
     public Rating? Rating { get; set; }
+
+    public int ProductionCompanyId { get; set; }
+
+    [Display(Name = "Production Company")]
+    public ProductionCompany? ProductionCompany { get; set; }
 }
