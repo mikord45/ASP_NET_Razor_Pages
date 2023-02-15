@@ -1,8 +1,9 @@
 ﻿using RazorPagesMovie.Models;
+using RazorPagesMovie.Models.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace RazorPagesMovie.Models { 
-    public class ProductionCompany
+    public class ProductionCompany: IExternalMovieProperty
     {
 
         public int Id { get; set; }

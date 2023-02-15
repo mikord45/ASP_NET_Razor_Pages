@@ -2,10 +2,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
+using RazorPagesMovie.Models.Interfaces;
 
 namespace RazorPagesMovie.Models
 {
-    public class Rating
+    public class Rating: IExternalMovieProperty
     {
         public int Id { get; set; }
 
