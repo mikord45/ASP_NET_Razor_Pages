@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ASP_NET_Razor_Pages.Data;
 using RazorPagesMovie.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace ASP_NET_Razor_Pages.Models.Movies
 {
@@ -32,7 +33,6 @@ namespace ASP_NET_Razor_Pages.Models.Movies
 
         public async Task OnGetAsync()
         {
-            // Use LINQ to get list of genres.
             IQueryable<string> genreQuery = from m in _context.Movie
                                             orderby m.Genre
                                             select m.Genre;
@@ -50,7 +50,7 @@ namespace ASP_NET_Razor_Pages.Models.Movies
                 movies = movies.Where(x => x.Genre == MovieGenre);
             }
             Genres = new SelectList(await genreQuery.Distinct().ToListAsync());
-            Movie = await movies.ToListAsync();
+            Movie = await movies.Include("Rating").ToListAsync();
         }
     }
 }

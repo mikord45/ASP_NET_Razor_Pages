@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using ASP_NET_Razor_Pages.Data;
 using RazorPagesMovie.Models;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace ASP_NET_Razor_Pages.Models.Movies
 {
@@ -24,6 +25,13 @@ namespace ASP_NET_Razor_Pages.Models.Movies
         [BindProperty]
         public Movie Movie { get; set; } = default!;
 
+
+        public SelectList? Ratings { get; set; }
+
+
+        [BindProperty(SupportsGet = true)]
+        public string? MovieRating { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Movie == null)
@@ -31,22 +39,31 @@ namespace ASP_NET_Razor_Pages.Models.Movies
                 return NotFound();
             }
 
-            var movie =  await _context.Movie.FirstOrDefaultAsync(m => m.Id == id);
+            var movie = await _context.Movie.Include("Rating").FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null)
             {
                 return NotFound();
             }
+
+            var ratingsQuery = from m in _context.Rating
+                               select m;
+
+            var allRatings = await ratingsQuery.ToListAsync();
+            Ratings = new SelectList(allRatings, "Id", "Name");
+            MovieRating = movie.Rating.Id.ToString();
             Movie = movie;
             return Page();
         }
 
         public async Task<IActionResult> OnUpdateAsync()
         {
+            Movie.Rating = _context.Rating.Where(r => r.Id.ToString() == MovieRating).FirstOrDefault();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-
+            
             _context.Attach(Movie).State = EntityState.Modified;
 
             try
