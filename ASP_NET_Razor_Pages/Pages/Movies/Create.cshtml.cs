@@ -11,6 +11,7 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Security.Policy;
 
 namespace ASP_NET_Razor_Pages.Models.Movies
 {
@@ -23,6 +24,9 @@ namespace ASP_NET_Razor_Pages.Models.Movies
             _context = context;
 
         }
+
+        public string EmptyRating = "";
+        public string EmptyProductionCompany = "";
 
         [BindProperty]
         public Movie Movie { get; set; }
@@ -50,6 +54,18 @@ namespace ASP_NET_Razor_Pages.Models.Movies
             ProductionCompanies = new SelectList(allProductionCompanies, "Id", "Name");
         }
 
+        public void loadErrorMessagesOnEmptyRatingOrProductionCompany(bool emptyRating, bool emptyProductionCompany)
+        {
+            if (emptyRating)
+            {
+                EmptyRating = "Rating is required.";
+            }
+            if (emptyProductionCompany) 
+            {
+                EmptyProductionCompany = "Production Company is required";
+            }
+        }
+
         public async Task<IActionResult> OnGetAsync()
         {
             await loadRatingsAndProductionCompanies();
@@ -61,8 +77,11 @@ namespace ASP_NET_Razor_Pages.Models.Movies
         {
             Movie.Rating = _context.Rating.Where(r => r.Id.ToString() == MovieRating).FirstOrDefault();
             Movie.ProductionCompany = _context.ProductionCompany.Where(c => c.Id.ToString() == MovieProductionCompany).FirstOrDefault();
-            if (!ModelState.IsValid || Movie.Rating == null || Movie.ProductionCompany == null)
+            bool ratingProvided = Movie.Rating != null;
+            bool productionCompanyProvided = Movie.ProductionCompany != null;
+            if (!ModelState.IsValid || !ratingProvided || !productionCompanyProvided)
             {
+                loadErrorMessagesOnEmptyRatingOrProductionCompany(!ratingProvided, !productionCompanyProvided);
                 await loadRatingsAndProductionCompanies();
                 return Page();
             }
