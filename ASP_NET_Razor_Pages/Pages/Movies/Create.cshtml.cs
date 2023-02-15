@@ -9,6 +9,8 @@ using ASP_NET_Razor_Pages.Data;
 using RazorPagesMovie.Models;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ASP_NET_Razor_Pages.Models.Movies
 {
@@ -19,22 +21,49 @@ namespace ASP_NET_Razor_Pages.Models.Movies
         public CreateModel(ASP_NET_Razor_Pages.Data.ApplicationDbContext context)
         {
             _context = context;
-        }
 
-        public IActionResult OnGet()
-        {
-            return Page();
         }
 
         [BindProperty]
         public Movie Movie { get; set; }
-        
+
+        public SelectList? Ratings { get; set; }
+
+
+        [BindProperty(SupportsGet = true)]
+        public string? MovieRating { get; set; }
+
+        public SelectList? ProductionCompanies { get; set; }
+
+
+        [BindProperty(SupportsGet = true)]
+        public string? MovieProductionCompany { get; set; }
+
+        public async Task loadRatingsAndProductionCompanies()
+        {
+            var ratingsQuery = from m in _context.Rating select m;
+            var allRatings = await ratingsQuery.ToListAsync();
+            Ratings = new SelectList(allRatings, "Id", "Name");
+
+            var productionCompaniesQuery = from m in _context.ProductionCompany select m;
+            var allProductionCompanies = await productionCompaniesQuery.ToListAsync();
+            ProductionCompanies = new SelectList(allProductionCompanies, "Id", "Name");
+        }
+
+        public async Task<IActionResult> OnGetAsync()
+        {
+            await loadRatingsAndProductionCompanies();
+            return Page();
+        }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid)
+            Movie.Rating = _context.Rating.Where(r => r.Id.ToString() == MovieRating).FirstOrDefault();
+            Movie.ProductionCompany = _context.ProductionCompany.Where(c => c.Id.ToString() == MovieProductionCompany).FirstOrDefault();
+            if (!ModelState.IsValid || Movie.Rating == null || Movie.ProductionCompany == null)
             {
+                await loadRatingsAndProductionCompanies();
                 return Page();
             }
 
