@@ -3,13 +3,18 @@
 
 @{
     ViewData["Title"] = "Index";
+    var inAdminRole = User.IsInRole("Admin");
 }
 
 <h1>Index</h1>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
+@if (inAdminRole)
+{
+    <p>
+        <a asp-page="Create">Create New</a>
+    </p>
+}
+
 
 <form>
     <p>
@@ -67,9 +72,12 @@
                 @Html.DisplayFor(modelItem => item.ProductionCompany.Name)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> 
+                    @if (inAdminRole)
+                    {
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    }
             </td>
         </tr>
 }

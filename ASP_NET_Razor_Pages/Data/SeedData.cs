@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ASP_NET_Razor_Pages.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using ASP_NET_Razor_Pages.Models;
+using RazorPagesMovie.Models;
 
-namespace RazorPagesMovie.Models;
+namespace ASP_NET_Razor_Pages.Data;
 
 public static class SeedData
 {

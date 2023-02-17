@@ -10,9 +10,12 @@ using ASP_NET_Razor_Pages.Data;
 using RazorPagesMovie.Models;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ASP_NET_Razor_Pages.Models.Movies
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly ASP_NET_Razor_Pages.Data.ApplicationDbContext _context;

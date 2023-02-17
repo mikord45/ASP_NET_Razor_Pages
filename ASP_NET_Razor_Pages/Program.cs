@@ -1,7 +1,6 @@
 using ASP_NET_Razor_Pages.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using RazorPagesMovie.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,8 +11,14 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDbContext<ApplicationDbContext>(options => builder.Services.AddDatabaseDeveloperPageExceptionFilter());
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+options => {
+    options.Stores.MaxLengthForKeys = 128;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddRoles<IdentityRole>()
+.AddDefaultUI()
+.AddDefaultTokenProviders();
 
 builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 
@@ -30,6 +35,12 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     SeedData.Initialize(services);
+
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    var userMgr = services.GetRequiredService<UserManager<IdentityUser>>();
+    var roleMgr = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+    IdentitySeedData.Initialize(context, userMgr, roleMgr).Wait();
 }
 
 // Configure the HTTP request pipeline.

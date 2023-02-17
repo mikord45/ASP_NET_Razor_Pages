@@ -12,9 +12,12 @@ using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Security.Policy;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ASP_NET_Razor_Pages.Models.Movies
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly ASP_NET_Razor_Pages.Data.ApplicationDbContext _context;
