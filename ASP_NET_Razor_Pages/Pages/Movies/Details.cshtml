@@ -6,10 +6,9 @@
     var inAdminRole = User.IsInRole("Admin");
 }
 
-<h1>Details</h1>
+<h1 class="grey-text">Details</h1>
 
-<div>
-    <h4>Movie</h4>
+<div class="grey-text">
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -40,14 +39,21 @@
             @Html.DisplayNameFor(model => model.Movie.Rating)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Movie.Rating)
+            @Html.DisplayFor(model => model.Movie.Rating.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.ProductionCompany)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.ProductionCompany.Name)
         </dd>
     </dl>
 </div>
 <div>
     @if (inAdminRole)
     {
-        <a asp-page="./Edit" asp-route-id="@Model.Movie?.Id">Edit</a>
+        <a asp-page="./Edit" asp-route-id="@Model.Movie?.Id" class="a-dark">Edit</a>
+        <br/>
     }
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index" class="a-dark">Back to List</a>
 </div>

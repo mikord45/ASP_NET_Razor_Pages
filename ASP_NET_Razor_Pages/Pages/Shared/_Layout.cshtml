@@ -8,25 +8,26 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ASP_NET_Razor_Pages.styles.css" asp-append-version="true" />
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <header class="bg-custom-black">
+        <nav class="bg-custom-black navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 bg-custom-color none-border-bottom">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">RpMovie</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <a class="navbar-brand light-green-text navbar-title" asp-area="" asp-page="/Index">MovieMania</a>
+                <button class="navbar-toggler light-green-bg-and-text" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-dark light-green-text" asp-area="" asp-page="/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link text-dark light-green-text" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Movies/Index">Movies</a>
+                            <a class="nav-link text-dark light-green-text" asp-area="" asp-page="/Movies/Index">Movies</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -34,21 +35,29 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container bg-custom-dark-grey fade">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - ASP_NET_Razor_Pages - <a asp-area="" asp-page="/Privacy">Privacy</a>
+    <footer class="none-border-top footer bg-custom-black text-muted">
+        <div class="container grey-text">
+            &copy; 2023 - MovieMania - <a class="a-light" asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            $(document).ready(function () {
+                $('.fade').addClass('in');
+            });
+        })
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

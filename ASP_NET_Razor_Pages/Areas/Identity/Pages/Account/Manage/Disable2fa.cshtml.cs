@@ -3,7 +3,9 @@
 #nullable disable
 
 using System;
+using System.Data;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,6 +13,8 @@ using Microsoft.Extensions.Logging;
 
 namespace ASP_NET_Razor_Pages.Areas.Identity.Pages.Account.Manage
 {
+    [Authorize(Roles = "Disabled")]
+
     public class Disable2faModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;

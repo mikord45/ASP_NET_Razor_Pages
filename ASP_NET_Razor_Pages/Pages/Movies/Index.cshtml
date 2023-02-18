@@ -6,27 +6,34 @@
     var inAdminRole = User.IsInRole("Admin");
 }
 
-<h1>Index</h1>
+<h1 class="grey-text">Movies</h1>
 
 @if (inAdminRole)
 {
     <p>
-        <a asp-page="Create">Create New</a>
+        <a class="a-dark" asp-page="Create">Create New</a>
     </p>
 }
 
 
-<form>
-    <p>
-        <select asp-for="MovieGenre" asp-items="Model.Genres">
+<form class="mt-5">
+    <div class="form-floating my-2">
+        <input type="text" asp-for="SearchString" class="form-control" />
+        <label asp-for="SearchString" class="form-label">Title</label>
+    </div>
+    <div class="form-group grey-text my-2">
+        <label for="MovieGenre">Genre</label>
+        <select asp-for="MovieGenre" asp-items="Model.Genres" class="form-control">
             <option value="">All</option>
         </select>
-        Title: <input type="text" asp-for="SearchString" />
-        <input type="submit" value="Filter" />
-    </p>
+    </div>
+    <div class="form-group grey-text">
+        <input type="submit" value="Filter" class="form-control btn-default" />
+    </div>
+
 </form>
 
-<table class="table">
+<table class="table grey-text custom-table">
     <thead>
         <tr>
             <th>
@@ -72,11 +79,11 @@
                 @Html.DisplayFor(modelItem => item.ProductionCompany.Name)
             </td>
             <td>
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> 
+                <a asp-page="./Details" asp-route-id="@item.Id" class="a-dark">Details</a> 
                     @if (inAdminRole)
                     {
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-page="./Edit" asp-route-id="@item.Id" class="a-dark">Edit</a>
+                        <a asp-page="./Delete" asp-route-id="@item.Id" class="a-dark">Delete</a>
                     }
             </td>
         </tr>

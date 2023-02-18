@@ -28,7 +28,7 @@ namespace ASP_NET_Razor_Pages.Models.Movies
                 return NotFound();
             }
 
-            var movie = await _context.Movie.FirstOrDefaultAsync(m => m.Id == id);
+            var movie = await _context.Movie.Include("Rating").Include("ProductionCompany").FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null)
             {
                 return NotFound();

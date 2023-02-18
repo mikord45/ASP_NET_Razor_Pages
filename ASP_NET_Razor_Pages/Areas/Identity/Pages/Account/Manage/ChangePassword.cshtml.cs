@@ -4,7 +4,9 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,6 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ASP_NET_Razor_Pages.Areas.Identity.Pages.Account.Manage
 {
+    [Authorize(Roles = "Admin, Member")]
     public class ChangePasswordModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
