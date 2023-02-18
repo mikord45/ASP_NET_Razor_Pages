@@ -128,7 +128,7 @@ namespace ASP_NET_Razor_Pages.Areas.Identity.Pages.Account
                     string memberRole = "Member";
                     await _userManager.AddToRoleAsync(user, memberRole);
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    return LocalRedirect("~/");
                 }
                 foreach (var error in result.Errors)
                 {
